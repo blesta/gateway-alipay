@@ -1,0 +1,9 @@
+{
+    "name": "blesta/alipay",
+    "description": "Alipay",
+    "license": "proprietary",
+    "type": "blesta-gateway-nonmerchant",
+    "require": {
+        "blesta/composer-installer": "~1.0"
+    }
+}

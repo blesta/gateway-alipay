@@ -1,0 +1,27 @@
+<ul>
+    <li>
+        <?php
+            $this->Form->label($this->_('Alipay.merchant_email', true), 'merchant_email');
+            $this->Form->fieldText('merchant_email', $this->Html->ifSet($meta['merchant_email']), ['id'=>'merchant_email']);
+        ?>
+    </li>
+    <li>
+        <?php
+            $this->Form->label($this->_('Alipay.merchant_uid', true), 'merchant_uid');
+            $this->Form->fieldText('merchant_uid', $this->Html->ifSet($meta['merchant_uid']), ['id'=>'merchant_uid']);
+        ?>
+    </li>
+    <li>
+        <?php
+            $this->Form->label($this->_('Alipay.signature_key', true), 'signature_key');
+            $this->Form->fieldText('signature_key', $this->Html->ifSet($meta['signature_key']), ['id'=>'signature_key']);
+        ?>
+    </li>
+    <li>
+        <?php
+               $this->Form->fieldCheckbox('dev_mode', 'true', ($this->Html->ifSet($meta['dev_mode'], 'false') == 'true'), ['id'=>'dev_mode']);
+            $this->Form->label($this->_('Alipay.dev_mode', true), 'dev_mode', ['class'=>'inline']);
+        ?>
+        <span class="tooltip"><?php $this->_('AppController.tooltip.text'); ?><div><?php $this->_('Alipay.dev_mode_note'); ?></div></span>
+    </li>
+</ul>

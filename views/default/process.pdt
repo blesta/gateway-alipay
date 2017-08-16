@@ -1,0 +1,15 @@
+<?php
+// Disable CSRF for this form
+$this->Form->setCsrfOptions(['set_on_create' => false]);
+
+// Build payment button
+$this->Form->create($post_to, ['method' => 'get', 'id' => 'alipay_button']);
+
+if ($this->Html->ifSet($fields)) {
+    foreach ($fields as $key => $value) {
+        $this->Form->fieldHidden($key, $value);
+    }
+}
+
+$this->Form->fieldButton('sign', $this->_('Alipay.buildprocess.submit', true), ['type' => 'submit', 'class' => 'btn btn-info', 'value' => $signature]);
+$this->Form->end();
