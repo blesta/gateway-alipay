@@ -2,6 +2,7 @@
 
 // Main
 $lang['Alipay.name'] = 'Alipay';
+$lang['Alipay.description'] = '';
 $lang['Alipay.merchant_email'] = 'Merchant Email';
 $lang['Alipay.merchant_uid'] = 'Merchant UID/PID';
 $lang['Alipay.signature_key'] = 'Signature Key';
