@@ -8,6 +8,6 @@
 			"url": "http://www.blesta.com"
 		}
 	],
-	"currencies": ["AUD"],
+	"currencies": ["AUD", "EUR", "HKD", "JPY", "NZD", "GBP", "SGD", "THB", "KRW", "USD"],
 	"signup_url": "https://intl.alipay.com/"
 }

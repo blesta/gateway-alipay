@@ -3,7 +3,7 @@
  * Alipay Gateway.
  *
  * The Alipay API documentation can be found at:
- * https://global.alipay.com/service/website_split/1/
+ * https://intl.alipay.com/doc/gr/hx6vzr
  *
  * @package blesta
  * @subpackage blesta.components.gateways.alipay
