@@ -2,6 +2,7 @@
 
 // Main
 $lang['Alipay.name'] = 'Alipay';
+$lang['Alipay.description'] = 'One of the worlds largest third-party mobile and online payment platform. Primary market is mainland China';
 $lang['Alipay.merchant_email'] = 'Merchant Email';
 $lang['Alipay.merchant_uid'] = 'Merchant UID/PID';
 $lang['Alipay.signature_key'] = 'Signature Key';
