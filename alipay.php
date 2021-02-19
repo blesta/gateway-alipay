@@ -189,26 +189,26 @@ class Alipay extends NonmerchantGateway
 
         // An array of key/value hidden fields to set for the payment form
         $fields = [
-            'subject' => $this->ifSet($options['description']),
+            'subject' => (isset($options['description']) ? $options['description'] : null),
             'out_trade_no' => $contact_info['client_id'] . '@' . (!empty($invoices) ? $invoices : time()),
-            'currency' => $this->ifSet($this->currency),
-            'total_fee' => $this->ifSet($amount),
-            'supplier' => $this->ifSet($company->name),
+            'currency' => (isset($this->currency) ? $this->currency : null),
+            'total_fee' => (isset($amount) ? $amount : null),
+            'supplier' => (isset($company->name) ? $company->name : null),
             'notify_url' => Configure::get('Blesta.gw_callback_url') . Configure::get('Blesta.company_id') . '/alipay/',
-            'return_url' => $this->ifSet($options['return_url'])
+            'return_url' => (isset($options['return_url']) ? $options['return_url'] : null)
         ];
-        $this->log($this->ifSet($_SERVER['REQUEST_URI']), serialize($fields), 'input', true);
+        $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($fields), 'input', true);
 
         // Build payment request
         $request = $api->requestPayment($fields);
 
         try {
             if (isset($request['headers']['location'])) {
-                $this->log($this->ifSet($_SERVER['REQUEST_URI']), serialize($request), 'output', true);
+                $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($request), 'output', true);
 
                 return $this->buildForm($request['url'], $request['params']);
             }
-            $this->log($this->ifSet($_SERVER['REQUEST_URI']), serialize($request), 'output', false);
+            $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($request), 'output', false);
 
             return null;
         } catch (Exception $e) {
@@ -274,7 +274,7 @@ class Alipay extends NonmerchantGateway
         $client_id = $data_parts[0];
 
         // Get invoices
-        $invoices = $this->ifSet($data_parts[1]);
+        $invoices = (isset($data_parts[1]) ? $data_parts[1] : null);
         if (is_numeric($invoices)) {
             $invoices = null;
         }
@@ -309,15 +309,15 @@ class Alipay extends NonmerchantGateway
         }
 
         // Log response
-        $this->log($this->ifSet($_SERVER['REQUEST_URI']), serialize($post), 'output', $return_status);
+        $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($post), 'output', $return_status);
 
         return [
             'client_id' => $client_id,
-            'amount' => $this->ifSet($post['total_fee']),
-            'currency' => $this->ifSet($post['currency']),
+            'amount' => (isset($post['total_fee']) ? $post['total_fee'] : null),
+            'currency' => (isset($post['currency']) ? $post['currency'] : null),
             'status' => $status,
             'reference_id' => null,
-            'transaction_id' => $this->ifSet($post['trade_no']),
+            'transaction_id' => (isset($post['trade_no']) ? $post['trade_no'] : null),
             'invoices' => $this->unserializeInvoices($invoices)
         ];
     }
@@ -347,7 +347,7 @@ class Alipay extends NonmerchantGateway
         $client_id = $data_parts[0];
 
         // Get invoices
-        $invoices = $this->ifSet($data_parts[1]);
+        $invoices = (isset($data_parts[1]) ? $data_parts[1] : null);
         if (is_numeric($invoices)) {
             $invoices = null;
         }
@@ -375,15 +375,15 @@ class Alipay extends NonmerchantGateway
         }
 
         // Log response
-        $this->log($this->ifSet($_SERVER['REQUEST_URI']), serialize($get), 'output', $return_status);
+        $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($get), 'output', $return_status);
 
         return [
             'client_id' => $client_id,
-            'amount' => $this->ifSet($get['total_fee']),
-            'currency' => $this->ifSet($get['currency']),
+            'amount' => (isset($get['total_fee']) ? $get['total_fee'] : null),
+            'currency' => (isset($get['currency']) ? $get['currency'] : null),
             'invoices' => $this->unserializeInvoices($invoices),
             'status' => $status,
-            'transaction_id' => $this->ifSet($get['trade_no'])
+            'transaction_id' => (isset($get['trade_no']) ? $get['trade_no'] : null)
         ];
     }
 
