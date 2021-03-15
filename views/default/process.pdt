@@ -5,7 +5,7 @@ $this->Form->setCsrfOptions(['set_on_create' => false]);
 // Build payment button
 $this->Form->create($post_to, ['method' => 'get', 'id' => 'alipay_button']);
 
-if ($this->Html->ifSet($fields)) {
+if ((isset($fields) ? $fields : null)) {
     foreach ($fields as $key => $value) {
         $this->Form->fieldHidden($key, $value);
     }
