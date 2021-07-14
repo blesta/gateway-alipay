@@ -1,4 +1,6 @@
 <?php
+use Blesta\Core\Util\Common\Traits\Container;
+
 /**
  * Alipay API.
  *
@@ -10,6 +12,9 @@
  */
 class AlipayApi
 {
+    // Load traits
+    use Container;
+
     /**
      * @var string The charset with which the request data is encoded
      */
@@ -72,6 +77,10 @@ class AlipayApi
         $this->partner = $partner;
         $this->sign_key = $sign_key;
         $this->dev_mode = $dev_mode;
+
+        // Initialize logger
+        $logger = $this->getFromContainer('logger');
+        $this->logger = $logger;
     }
 
     /**
@@ -109,9 +118,21 @@ class AlipayApi
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+        if (Configure::get('Blesta.curl_verify_ssl')) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, true);
+        } else {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
+
         $data = curl_exec($ch);
+
+        if ($data == false) {
+            $this->logger->error(curl_error($ch));
+        }
+
         curl_close($ch);
 
         // Validate response
