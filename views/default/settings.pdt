@@ -1,27 +1,31 @@
-<ul>
-    <li>
+
+<div class="mb-3">
+    <?php
+    $this->Form->label($this->_('Alipay.merchant_email', true), 'merchant_email', ['class' => 'form-label']);
+    $this->Form->fieldText('merchant_email', (isset($meta['merchant_email']) ? $meta['merchant_email'] : null), ['id' => 'merchant_email', 'class' => 'form-control']);
+    ?>
+</div>
+<div class="mb-3">
+    <?php
+    $this->Form->label($this->_('Alipay.merchant_uid', true), 'merchant_uid', ['class' => 'form-label']);
+    $this->Form->fieldText('merchant_uid', (isset($meta['merchant_uid']) ? $meta['merchant_uid'] : null), ['id' => 'merchant_uid', 'class' => 'form-control']);
+    ?>
+</div>
+<div class="mb-3">
+    <?php
+    $this->Form->label($this->_('Alipay.signature_key', true), 'signature_key', ['class' => 'form-label']);
+    $this->Form->fieldText('signature_key', (isset($meta['signature_key']) ? $meta['signature_key'] : null), ['id' => 'signature_key', 'class' => 'form-control']);
+    ?>
+</div>
+<div class="mb-3">
+    <div class="form-check">
         <?php
-            $this->Form->label($this->_('Alipay.merchant_email', true), 'merchant_email');
-            $this->Form->fieldText('merchant_email', (isset($meta['merchant_email']) ? $meta['merchant_email'] : null), ['id'=>'merchant_email']);
+        $this->Form->fieldCheckbox('dev_mode', 'true', ((isset($meta['dev_mode']) ? $meta['dev_mode'] : 'false') == 'true'), ['id' => 'dev_mode', 'class' => 'form-check-input']);
         ?>
-    </li>
-    <li>
-        <?php
-            $this->Form->label($this->_('Alipay.merchant_uid', true), 'merchant_uid');
-            $this->Form->fieldText('merchant_uid', (isset($meta['merchant_uid']) ? $meta['merchant_uid'] : null), ['id'=>'merchant_uid']);
-        ?>
-    </li>
-    <li>
-        <?php
-            $this->Form->label($this->_('Alipay.signature_key', true), 'signature_key');
-            $this->Form->fieldText('signature_key', (isset($meta['signature_key']) ? $meta['signature_key'] : null), ['id'=>'signature_key']);
-        ?>
-    </li>
-    <li>
-        <?php
-               $this->Form->fieldCheckbox('dev_mode', 'true', ((isset($meta['dev_mode']) ? $meta['dev_mode'] : 'false') == 'true'), ['id'=>'dev_mode']);
-            $this->Form->label($this->_('Alipay.dev_mode', true), 'dev_mode', ['class'=>'inline']);
-        ?>
-        <span class="tooltip"><?php $this->_('AppController.tooltip.text'); ?><div><?php $this->_('Alipay.dev_mode_note'); ?></div></span>
-    </li>
-</ul>
+        <label for="dev_mode" class="form-check-label">
+            <?php $this->_('Alipay.dev_mode'); ?>
+            <i class="bi bi-info-circle ms-1" data-bs-toggle="tooltip" data-bs-placement="top"
+               title="<?php echo $this->Html->safe($this->_('Alipay.dev_mode_note', true)); ?>"></i>
+        </label>
+    </div>
+</div>
