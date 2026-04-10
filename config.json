@@ -1,13 +1,24 @@
 {
-	"version": "1.3.0",
-	"name": "Alipay.name",
-	"description": "Alipay.description",
-	"authors": [
-		{
-			"name": "Phillips Data, Inc.",
-			"url": "http://www.blesta.com"
-		}
-	],
-	"currencies": ["AUD", "EUR", "HKD", "JPY", "NZD", "GBP", "SGD", "THB", "KRW", "USD"],
-	"signup_url": "https://intl.alipay.com/"
+    "version": "2.0.0",
+    "name": "Alipay.name",
+    "description": "Alipay.description",
+    "authors": [
+        {
+            "name": "Phillips Data, Inc.",
+            "url": "http://www.blesta.com"
+        }
+    ],
+    "currencies": [
+        "AUD",
+        "EUR",
+        "HKD",
+        "JPY",
+        "NZD",
+        "GBP",
+        "SGD",
+        "THB",
+        "KRW",
+        "USD"
+    ],
+    "signup_url": "https://intl.alipay.com/"
 }
