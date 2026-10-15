@@ -268,7 +268,23 @@ class Alipay extends NonmerchantGateway
         Loader::load(dirname(__FILE__) . DS . 'lib' . DS . 'alipay_api.php');
         $api = new AlipayApi($this->meta['merchant_uid'], $this->meta['signature_key'], $this->meta['dev_mode']);
 
-        $data_parts = explode('@', $post['out_trade_no'], 2);
+        // Reject the IPN unless it is signed by Alipay and its notify ID is genuine
+        try {
+            $valid = $api->verifySignature($post) && $api->verifyNotification($post['notify_id'] ?? '');
+        } catch (Throwable $e) {
+            $valid = false;
+        }
+
+        if (!$valid) {
+            $this->Input->setErrors(
+                ['failed' => ['response' => Language::_('Alipay.!error.failed.response', true)]]
+            );
+            $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($post), 'output', false);
+
+            return;
+        }
+
+        $data_parts = explode('@', $post['out_trade_no'] ?? '', 2);
 
         // Get client id
         $client_id = $data_parts[0];
@@ -279,34 +295,31 @@ class Alipay extends NonmerchantGateway
             $invoices = null;
         }
 
-        // Capture the IPN status, or reject it if invalid
-        $response = $api->verifyNotification($post['notify_id']);
+        // Capture the IPN status
         $status = 'error';
         $return_status = false;
 
-        if ($response) {
-            switch ($post['trade_status']) {
-                case 'TRADE_FINISHED':
-                    $status = 'approved';
-                    $return_status = true;
-                    break;
-                case 'TRADE_REFUSE':
-                    $status = 'declined';
-                    $return_status = true;
-                    break;
-                case 'TRADE_CANCEL':
-                    $status = 'void';
-                    $return_status = true;
-                    break;
-                case 'TRADE_PENDING':
-                    $status = 'pending';
-                    $return_status = true;
-                    break;
-            }
-
-            // Print expected response by the Alipay api
-            echo 'Success';
+        switch ($post['trade_status'] ?? null) {
+            case 'TRADE_FINISHED':
+                $status = 'approved';
+                $return_status = true;
+                break;
+            case 'TRADE_REFUSE':
+                $status = 'declined';
+                $return_status = true;
+                break;
+            case 'TRADE_CANCEL':
+                $status = 'void';
+                $return_status = true;
+                break;
+            case 'TRADE_PENDING':
+                $status = 'pending';
+                $return_status = true;
+                break;
         }
+
+        // Print expected response by the Alipay api
+        echo 'Success';
 
         // Log response
         $this->log((isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null), serialize($post), 'output', $return_status);
