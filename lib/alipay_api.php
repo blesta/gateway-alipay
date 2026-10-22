@@ -311,4 +311,29 @@ class AlipayApi
 
         return strpos($response['response'], 'true') !== false;
     }
+
+    /**
+     * Validate the signature of a notification sent by Alipay.
+     *
+     * @param array $params The parameters of the notification, including the sign
+     * @return bool True if the signature is valid, false otherwise
+     */
+    public function verifySignature(array $params)
+    {
+        if (!isset($params['sign']) || !is_string($params['sign'])) {
+            return false;
+        }
+
+        // Empty parameters are not signed by Alipay
+        $sign = $params['sign'];
+        unset($params['sign'], $params['sign_type']);
+        $params = array_filter($params, function ($value) {
+            return $value !== '' && $value !== null;
+        });
+        ksort($params);
+
+        $data = urldecode(http_build_query($params));
+
+        return hash_equals(md5($data . $this->sign_key), strtolower($sign));
+    }
 }

@@ -14,3 +14,4 @@ $lang['Alipay.buildprocess.submit'] = 'Pay with Alipay';
 $lang['Alipay.!error.merchant_email.valid'] = 'You must enter a valid email address.';
 $lang['Alipay.!error.merchant_uid.valid'] = 'You must enter a valid Merchant UID/PID.';
 $lang['Alipay.!error.signature_key.valid'] = 'You must enter a valid signature key.';
+$lang['Alipay.!error.failed.response'] = 'The transaction could not be verified.';
